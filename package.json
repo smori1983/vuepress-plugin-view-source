@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "vuepress": "^1.9.7",
+    "vuepress-types": "^0.9.4"
+  },
   "files": [
     "src/**",
     "README.md",
