@@ -4,6 +4,9 @@
   "description": "VuePress plugin for view source.",
   "main": "src/index.js",
   "scripts": {
+    "example:dev": "vuepress dev --no-cache example",
+    "example:build": "vuepress build example",
+    "example:server": "http-server example/.vuepress/dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
