@@ -1,0 +1,27 @@
+{
+  "name": "vuepress-plugin-view-source",
+  "version": "0.1.0",
+  "description": "VuePress plugin for view source.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {},
+  "files": [
+    "src/**",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smori1983/vuepress-plugin-view-source.git"
+  },
+  "keywords": [
+    "vuepress",
+    "vuepress-plugin"
+  ],
+  "author": "Shinichiro MORI",
+  "license": "MIT",
+  "homepage": "https://github.com/smori1983/vuepress-plugin-view-source#readme"
+}
