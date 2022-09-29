@@ -20,6 +20,8 @@ echo date('Y-m-d H:i:s');
 
 ## JavaScript
 
+[[source:js:begin]]
+
 - JavaScript
 - JavaScript
 - JavaScript
@@ -27,3 +29,7 @@ echo date('Y-m-d H:i:s');
 ```javascript
 console.log('hello, world.');
 ```
+
+[[source:js:end]]
+
+[[source:js]]

@@ -47,19 +47,18 @@ const blockRule = (markerDefault, markerContainer) => {
 const range = (state, startLine, endLine, silent) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
-  // Do not leave begin marker.
-  if (lineText === '[[source:1:begin]]') {
+  // Do not leave begin and end markers.
+  if (/^\[\[source:[\da-z_]+:(begin|end)]]$/.test(lineText)) {
     state.line = startLine + 1;
     return true;
   }
 
-  // Do not leave end marker.
-  if (lineText === '[[source:1:end]]') {
-    state.line = startLine + 1;
-    return true;
-  }
+  let matched;
+  if ((matched = /^\[\[source:([\da-z_]+)]]$/.exec(lineText)) !== null) {
+    const id = matched[1];
+    const markerBegin = `[[source:${id}:begin]]`;
+    const markerEnd = `[[source:${id}:end]]`;
 
-  if (lineText === '[[source:1]]') {
     let rangeBegin;
     let rangeEnd;
 
@@ -67,11 +66,11 @@ const range = (state, startLine, endLine, silent) => {
     for (let line = 0; line <= state.lineMax; line++) {
       const text = state.src.slice(state.bMarks[line], state.eMarks[line]);
 
-      if (text === '[[source:1:begin]]') {
+      if (text === markerBegin) {
         rangeBegin = state.eMarks[line] + 1;
       }
 
-      if (text === '[[source:1:end]]') {
+      if (text === markerEnd) {
         rangeEnd = state.bMarks[line] - 1;
       }
     }
