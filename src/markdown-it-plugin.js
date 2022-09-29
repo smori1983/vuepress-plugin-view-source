@@ -7,6 +7,7 @@ const { Base64 } = require('js-base64');
 module.exports = (markerDefault, markerContainer) => {
   return (md) => {
     md.block.ruler.before('paragraph', 'playground_view_source', blockRule(markerDefault, markerContainer));
+    md.block.ruler.before('paragraph', 'playground_view_source_range', range);
   };
 };
 
@@ -41,4 +42,56 @@ const blockRule = (markerDefault, markerContainer) => {
 
     return true;
   };
+};
+
+const range = (state, startLine, endLine, silent) => {
+  const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
+
+  // Do not leave begin marker.
+  if (lineText === '[[source:1:begin]]') {
+    state.line = startLine + 1;
+    return true;
+  }
+
+  // Do not leave end marker.
+  if (lineText === '[[source:1:end]]') {
+    state.line = startLine + 1;
+    return true;
+  }
+
+  if (lineText === '[[source:1]]') {
+    let rangeBegin;
+    let rangeEnd;
+
+    // Find begin and end marker again.
+    for (let line = 0; line <= state.lineMax; line++) {
+      const text = state.src.slice(state.bMarks[line], state.eMarks[line]);
+
+      if (text === '[[source:1:begin]]') {
+        rangeBegin = state.eMarks[line] + 1;
+      }
+
+      if (text === '[[source:1:end]]') {
+        rangeEnd = state.bMarks[line] - 1;
+      }
+    }
+
+    if (typeof rangeBegin === 'number' && typeof rangeEnd === 'number' && rangeBegin < rangeEnd) {
+      const content = state.src.slice(rangeBegin, rangeEnd).trim();
+      const encoded = Base64.encode(content);
+
+      const token = new state.Token('html_block', '', 0);
+      token.map = [startLine, state.line];
+      token.content = `<PlaygroundViewSourceDefault display="default">${encoded}</PlaygroundViewSourceDefault>`;
+      token.block = true;
+
+      state.tokens.push(token);
+    }
+
+    state.line = startLine + 1;
+
+    return true;
+  }
+
+  return false;
 };
