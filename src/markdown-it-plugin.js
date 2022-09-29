@@ -6,8 +6,8 @@ const { Base64 } = require('js-base64');
  */
 module.exports = (markerDefault, markerContainer) => {
   return (md) => {
-    md.block.ruler.before('paragraph', 'playground_view_source', blockRule(markerDefault, markerContainer));
-    md.block.ruler.before('paragraph', 'playground_view_source_range', range);
+    md.block.ruler.before('paragraph', 'vuepress_plugin_view_source', blockRule(markerDefault, markerContainer));
+    md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range', range);
   };
 };
 
@@ -35,7 +35,7 @@ const blockRule = (markerDefault, markerContainer) => {
 
     const token = new state.Token('html_block', '', 0);
     token.map = [startLine, state.line];
-    token.content = `<PlaygroundViewSourceDefault display="${display}">${encoded}</PlaygroundViewSourceDefault>`;
+    token.content = `<PluginViewSourceDefault display="${display}">${encoded}</PluginViewSourceDefault>`;
     token.block = true;
 
     state.tokens.push(token);
@@ -82,7 +82,7 @@ const range = (state, startLine, endLine, silent) => {
 
       const token = new state.Token('html_block', '', 0);
       token.map = [startLine, state.line];
-      token.content = `<PlaygroundViewSourceDefault display="default">${encoded}</PlaygroundViewSourceDefault>`;
+      token.content = `<PluginViewSourceDefault display="default">${encoded}</PluginViewSourceDefault>`;
       token.block = true;
 
       state.tokens.push(token);

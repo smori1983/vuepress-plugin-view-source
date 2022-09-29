@@ -15,7 +15,6 @@ module.exports = (options) => {
   } = options;
 
   return {
-    name: 'playground-view-source',
     enhanceAppFiles: [
       path.resolve(__dirname, 'enhanceAppFile.js'),
     ],

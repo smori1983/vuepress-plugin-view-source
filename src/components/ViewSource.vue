@@ -1,5 +1,5 @@
 <template>
-  <div class="playground-view-source">
+  <div class="vuepress-plugin-view-source">
     <template v-if="display === 'container'">
       <details class="custom-block details">
         <summary>Source</summary>
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.playground-view-source {
+.vuepress-plugin-view-source {
   .source {
     background-color #2d2d2d
     color: white
