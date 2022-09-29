@@ -44,17 +44,23 @@ const blockRule = (markerDefault, markerContainer) => {
   };
 };
 
+// '[[source:<id>:begin]]' and '[[source:<id>:end]]'
+const regexpBeginEnd = /^\[\[source:[\da-z_]+:(begin|end)]]$/;
+
+// '[[source:<id>]]'
+const regexpOutput = /^\[\[source:([\da-z_]+)]]$/;
+
 const range = (state, startLine, endLine, silent) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
   // Do not leave begin and end markers.
-  if (/^\[\[source:[\da-z_]+:(begin|end)]]$/.test(lineText)) {
+  if (regexpBeginEnd.test(lineText)) {
     state.line = startLine + 1;
     return true;
   }
 
   let matched;
-  if ((matched = /^\[\[source:([\da-z_]+)]]$/.exec(lineText)) !== null) {
+  if ((matched = regexpOutput.exec(lineText)) !== null) {
     const id = matched[1];
     const markerBegin = `[[source:${id}:begin]]`;
     const markerEnd = `[[source:${id}:end]]`;
