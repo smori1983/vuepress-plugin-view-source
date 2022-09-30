@@ -47,8 +47,8 @@ const entirePage = (markerDefault, markerContainer) => {
 // '[[source:<id>:begin]]' and '[[source:<id>:end]]'
 const regexpBeginEnd = /^\[\[source:[\da-z_]+:(begin|end)]]$/;
 
-// '[[source:<id>]]'
-const regexpOutput = /^\[\[source:([\da-z_]+)]]$/;
+// '[[source:<id>:show]]'
+const regexpOutput = /^\[\[source:([\da-z_]+):show]]$/;
 
 const range = (state, startLine, endLine, silent) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);

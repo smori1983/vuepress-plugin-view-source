@@ -15,7 +15,7 @@ echo date('Y-m-d H:i:s');
 
 [[source:1:end]]
 
-[[source:1]]
+[[source:1:show]]
 
 
 ## JavaScript
@@ -32,6 +32,6 @@ console.log('hello, world.');
 
 [[source:js:end]]
 
-[[source:js]]
+[[source:js:show]]
 
 [[source:container]]
