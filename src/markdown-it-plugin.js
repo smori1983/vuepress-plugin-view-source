@@ -6,7 +6,7 @@ const { Base64 } = require('js-base64');
  */
 module.exports = (markerDefault, markerContainer) => {
   return (md) => {
-    md.block.ruler.before('paragraph', 'vuepress_plugin_view_source', blockRule(markerDefault, markerContainer));
+    md.block.ruler.before('paragraph', 'vuepress_plugin_view_source', entirePage(markerDefault, markerContainer));
     md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range', range);
   };
 };
@@ -15,7 +15,7 @@ module.exports = (markerDefault, markerContainer) => {
  * @param {string} markerDefault
  * @param {string} markerContainer
  */
-const blockRule = (markerDefault, markerContainer) => {
+const entirePage = (markerDefault, markerContainer) => {
   return (state, startLine, endLine, silent) => {
     const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
