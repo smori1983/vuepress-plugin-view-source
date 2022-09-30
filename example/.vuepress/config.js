@@ -13,6 +13,7 @@ module.exports = {
           '/pages/page_01.md',
           '/pages/page_02.md',
           '/pages/page_03.md',
+          '/pages/page_04.md',
         ],
       },
     ],

@@ -47,8 +47,8 @@ const entirePage = (markerDefault, markerContainer) => {
 // '[[source:<id>:begin]]' and '[[source:<id>:end]]'
 const regexpBeginEnd = /^\[\[source:[\da-z_]+:(begin|end)]]$/;
 
-// '[[source:<id>:show]]'
-const regexpOutput = /^\[\[source:([\da-z_]+):show]]$/;
+// '[[source:<id>:show]]' or '[[source:<id>:show:container]]'
+const regexpOutput = /^\[\[source:([\da-z_]+):show(:(container))?]]$/;
 
 const range = (state, startLine, endLine, silent) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
@@ -62,6 +62,7 @@ const range = (state, startLine, endLine, silent) => {
   let matched;
   if ((matched = regexpOutput.exec(lineText)) !== null) {
     const id = matched[1];
+    const display = matched[3] || 'default';
     const markerBegin = `[[source:${id}:begin]]`;
     const markerEnd = `[[source:${id}:end]]`;
 
@@ -87,7 +88,7 @@ const range = (state, startLine, endLine, silent) => {
 
       const token = new state.Token('html_block', '', 0);
       token.map = [startLine, state.line];
-      token.content = `<PluginViewSourceDefault display="default">${encoded}</PluginViewSourceDefault>`;
+      token.content = `<PluginViewSourceDefault display="${display}">${encoded}</PluginViewSourceDefault>`;
       token.block = true;
 
       state.tokens.push(token);

@@ -1,4 +1,4 @@
-# Page 03
+# Page 04
 
 
 ## PHP
@@ -15,7 +15,7 @@ echo date('Y-m-d H:i:s');
 
 [[source:1:end]]
 
-[[source:1:show]]
+[[source:1:show:container]]
 
 
 ## JavaScript
@@ -32,7 +32,7 @@ console.log('hello, world.');
 
 [[source:js:end]]
 
-[[source:js:show]]
+[[source:js:show:container]]
 
 
 ## Entire page source
