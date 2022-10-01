@@ -14,6 +14,8 @@ module.exports = {
           '/pages/page_02.md',
           '/pages/page_03.md',
           '/pages/page_04.md',
+          '/pages/page_05.md',
+          '/pages/page_06.md',
         ],
       },
     ],
