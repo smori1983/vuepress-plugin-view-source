@@ -1,47 +1,35 @@
 const { Base64 } = require('js-base64');
 
-/**
- * @param {string} markerDefault
- * @param {string} markerContainer
- */
-module.exports = (markerDefault, markerContainer) => {
-  return (md) => {
-    md.block.ruler.before('paragraph', 'vuepress_plugin_view_source', entirePage(markerDefault, markerContainer));
-    md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range', range);
-  };
+module.exports = (md) => {
+  md.block.ruler.before('paragraph', 'vuepress_plugin_view_source', entirePage);
+  md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range', range);
 };
 
 // '[[source]]' and '[[source:container]]'
 const regexpEntirePage = /^\[\[source(:(container))?]]$/;
 
-/**
- * @param {string} markerDefault
- * @param {string} markerContainer
- */
-const entirePage = (markerDefault, markerContainer) => {
-  return (state, startLine, endLine, silent) => {
-    const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
+const entirePage = (state, startLine, endLine, silent) => {
+  const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
-    let matched;
-    if ((matched = regexpEntirePage.exec(lineText)) === null) {
-      return false;
-    }
+  let matched;
+  if ((matched = regexpEntirePage.exec(lineText)) === null) {
+    return false;
+  }
 
-    const display = matched[2] || 'default';
+  const display = matched[2] || 'default';
 
-    state.line = startLine + 1;
+  state.line = startLine + 1;
 
-    const encoded = Base64.encode(state.src);
+  const encoded = Base64.encode(state.src);
 
-    const token = new state.Token('html_block', '', 0);
-    token.map = [startLine, state.line];
-    token.content = `<PluginViewSourceDefault display="${display}">${encoded}</PluginViewSourceDefault>`;
-    token.block = true;
+  const token = new state.Token('html_block', '', 0);
+  token.map = [startLine, state.line];
+  token.content = `<PluginViewSourceDefault display="${display}">${encoded}</PluginViewSourceDefault>`;
+  token.block = true;
 
-    state.tokens.push(token);
+  state.tokens.push(token);
 
-    return true;
-  };
+  return true;
 };
 
 // '[[source:<id>:begin]]' and '[[source:<id>:end]]'

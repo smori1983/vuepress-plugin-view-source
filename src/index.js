@@ -5,21 +5,15 @@
 const path = require('path');
 
 /**
- * @param {Object} options
  * @return {PluginOptionAPI}
  */
-module.exports = (options) => {
-  const {
-    markerDefault = '[[source]]',
-    markerContainer = '[[source:container]]',
-  } = options;
-
+module.exports = () => {
   return {
     enhanceAppFiles: [
       path.resolve(__dirname, 'enhanceAppFile.js'),
     ],
     extendMarkdown: (md) => {
-      md.use(require('./markdown-it-plugin')(markerDefault, markerContainer));
+      md.use(require('./markdown-it-plugin'));
     },
   };
 };
