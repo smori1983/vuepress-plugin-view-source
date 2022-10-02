@@ -11,6 +11,9 @@ module.exports = (markerDefault, markerContainer) => {
   };
 };
 
+// '[[source]]' and '[[source:container]]'
+const regexpEntirePage = /^\[\[source(:(container))?]]$/;
+
 /**
  * @param {string} markerDefault
  * @param {string} markerContainer
@@ -19,15 +22,12 @@ const entirePage = (markerDefault, markerContainer) => {
   return (state, startLine, endLine, silent) => {
     const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
-    let display = null;
-
-    if (lineText === markerDefault) {
-      display = 'default';
-    } else if (lineText === markerContainer) {
-      display = 'container';
-    } else {
+    let matched;
+    if ((matched = regexpEntirePage.exec(lineText)) === null) {
       return false;
     }
+
+    const display = matched[2] || 'default';
 
     state.line = startLine + 1;
 
