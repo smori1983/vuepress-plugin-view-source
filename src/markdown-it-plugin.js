@@ -13,8 +13,9 @@ const regexpEntirePageDisplay = /^\[\[source(:(container))?]]$/;
 const entirePage = (state, startLine, endLine, silent) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
-  let matched;
-  if ((matched = regexpEntirePageDisplay.exec(lineText)) === null) {
+  const matched = regexpEntirePageDisplay.exec(lineText);
+
+  if (matched === null) {
     return false;
   }
 
@@ -51,8 +52,9 @@ const range = (state, startLine, endLine, silent) => {
     return true;
   }
 
-  let matched;
-  if ((matched = regexpRangeDisplay.exec(lineText)) === null) {
+  const matched = regexpRangeDisplay.exec(lineText);
+
+  if (matched === null) {
     return false;
   }
 
