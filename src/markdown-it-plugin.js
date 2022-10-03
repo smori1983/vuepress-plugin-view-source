@@ -32,11 +32,11 @@ const entirePage = (state, startLine, endLine, silent) => {
   return true;
 };
 
-// '[[source:<id>:begin]]' and '[[source:<id>:end]]'
-const regexpBeginEnd = /^\[\[source:[\da-z_]+:(begin|end)]]$/;
+// '[[source(<id>):begin]]' and '[[source(<id>):end]]'
+const regexpBeginEnd = /^\[\[source\([\da-z_]+\):(begin|end)]]$/;
 
-// '[[source:<id>:show]]' or '[[source:<id>:show:container]]'
-const regexpOutput = /^\[\[source:([\da-z_]+):show(:(container))?]]$/;
+// '[[source(<id>)]]' or '[[source(<id>):container]]'
+const regexpOutput = /^\[\[source\(([\da-z_]+)\)(:(container))?]]$/;
 
 const range = (state, startLine, endLine, silent) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
@@ -51,8 +51,8 @@ const range = (state, startLine, endLine, silent) => {
   if ((matched = regexpOutput.exec(lineText)) !== null) {
     const id = matched[1];
     const display = matched[3] || 'default';
-    const markerBegin = `[[source:${id}:begin]]`;
-    const markerEnd = `[[source:${id}:end]]`;
+    const markerBegin = `[[source(${id}):begin]]`;
+    const markerEnd = `[[source(${id}):end]]`;
 
     let rangeBegin;
     let rangeEnd;
