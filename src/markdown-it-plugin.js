@@ -5,7 +5,9 @@ module.exports = (md) => {
   md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range', range);
 };
 
-// '[[source]]' and '[[source:container]]'
+// Pattern for entire page display:
+// - [[source]]
+// - [[source:container]]
 const regexpEntirePageDisplay = /^\[\[source(:(container))?]]$/;
 
 const entirePage = (state, startLine, endLine, silent) => {
@@ -32,10 +34,14 @@ const entirePage = (state, startLine, endLine, silent) => {
   return true;
 };
 
-// '[[source(<id>):begin]]' and '[[source(<id>):end]]'
+// Pattern for range begin and end:
+// - [[source(<id>):begin]]
+// - [[source(<id>):end]]
 const regexpRangeBeginEnd = /^\[\[source\([\da-z_]+\):(begin|end)]]$/;
 
-// '[[source(<id>)]]' or '[[source(<id>):container]]'
+// Pattern for range display:
+// - [[source(<id>)]]
+// - [[source(<id>):container]]
 const regexpRangeDisplay = /^\[\[source\(([\da-z_]+)\)(:(container))?]]$/;
 
 const range = (state, startLine, endLine, silent) => {
