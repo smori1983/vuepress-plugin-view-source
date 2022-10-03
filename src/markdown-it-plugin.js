@@ -6,13 +6,13 @@ module.exports = (md) => {
 };
 
 // '[[source]]' and '[[source:container]]'
-const regexpEntirePage = /^\[\[source(:(container))?]]$/;
+const regexpEntirePageDisplay = /^\[\[source(:(container))?]]$/;
 
 const entirePage = (state, startLine, endLine, silent) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
   let matched;
-  if ((matched = regexpEntirePage.exec(lineText)) === null) {
+  if ((matched = regexpEntirePageDisplay.exec(lineText)) === null) {
     return false;
   }
 
@@ -33,22 +33,22 @@ const entirePage = (state, startLine, endLine, silent) => {
 };
 
 // '[[source(<id>):begin]]' and '[[source(<id>):end]]'
-const regexpBeginEnd = /^\[\[source\([\da-z_]+\):(begin|end)]]$/;
+const regexpRangeBeginEnd = /^\[\[source\([\da-z_]+\):(begin|end)]]$/;
 
 // '[[source(<id>)]]' or '[[source(<id>):container]]'
-const regexpOutput = /^\[\[source\(([\da-z_]+)\)(:(container))?]]$/;
+const regexpRangeDisplay = /^\[\[source\(([\da-z_]+)\)(:(container))?]]$/;
 
 const range = (state, startLine, endLine, silent) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
   // Do not leave begin and end markers.
-  if (regexpBeginEnd.test(lineText)) {
+  if (regexpRangeBeginEnd.test(lineText)) {
     state.line = startLine + 1;
     return true;
   }
 
   let matched;
-  if ((matched = regexpOutput.exec(lineText)) !== null) {
+  if ((matched = regexpRangeDisplay.exec(lineText)) !== null) {
     const id = matched[1];
     const display = matched[3] || 'default';
     const markerBegin = `[[source(${id}):begin]]`;
