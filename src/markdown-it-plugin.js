@@ -19,17 +19,15 @@ const entirePage = (state, startLine, endLine, silent) => {
   }
 
   const display = matched[2] || 'default';
-
-  state.line = startLine + 1;
-
   const encoded = Base64.encode(state.src);
 
   const token = new state.Token('html_block', '', 0);
-  token.map = [startLine, state.line];
+  token.map = [startLine, startLine + 1];
   token.content = `<PluginViewSourceDefault display="${display}">${encoded}</PluginViewSourceDefault>`;
   token.block = true;
 
   state.tokens.push(token);
+  state.line = startLine + 1;
 
   return true;
 };
@@ -81,7 +79,7 @@ const range = (state, startLine, endLine, silent) => {
       const encoded = Base64.encode(content);
 
       const token = new state.Token('html_block', '', 0);
-      token.map = [startLine, state.line];
+      token.map = [startLine, startLine + 1];
       token.content = `<PluginViewSourceDefault display="${display}">${encoded}</PluginViewSourceDefault>`;
       token.block = true;
 
