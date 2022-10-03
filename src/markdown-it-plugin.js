@@ -52,44 +52,44 @@ const range = (state, startLine, endLine, silent) => {
   }
 
   let matched;
-  if ((matched = regexpRangeDisplay.exec(lineText)) !== null) {
-    const id = matched[1];
-    const display = matched[3] || 'default';
-    const markerBegin = `[[source(${id}):begin]]`;
-    const markerEnd = `[[source(${id}):end]]`;
-
-    let rangeBegin;
-    let rangeEnd;
-
-    // Find begin and end marker again.
-    for (let line = 0; line <= state.lineMax; line++) {
-      const text = state.src.slice(state.bMarks[line], state.eMarks[line]);
-
-      if (text === markerBegin) {
-        rangeBegin = state.eMarks[line] + 1;
-      }
-
-      if (text === markerEnd) {
-        rangeEnd = state.bMarks[line] - 1;
-      }
-    }
-
-    if (typeof rangeBegin === 'number' && typeof rangeEnd === 'number' && rangeBegin < rangeEnd) {
-      const content = state.src.slice(rangeBegin, rangeEnd).trim();
-      const encoded = Base64.encode(content);
-
-      const token = new state.Token('html_block', '', 0);
-      token.map = [startLine, startLine + 1];
-      token.content = `<PluginViewSourceDefault display="${display}">${encoded}</PluginViewSourceDefault>`;
-      token.block = true;
-
-      state.tokens.push(token);
-    }
-
-    state.line = startLine + 1;
-
-    return true;
+  if ((matched = regexpRangeDisplay.exec(lineText)) === null) {
+    return false;
   }
 
-  return false;
+  const id = matched[1];
+  const display = matched[3] || 'default';
+  const markerBegin = `[[source(${id}):begin]]`;
+  const markerEnd = `[[source(${id}):end]]`;
+
+  let rangeBegin;
+  let rangeEnd;
+
+  // Find begin and end marker again.
+  for (let line = 0; line <= state.lineMax; line++) {
+    const text = state.src.slice(state.bMarks[line], state.eMarks[line]);
+
+    if (text === markerBegin) {
+      rangeBegin = state.eMarks[line] + 1;
+    }
+
+    if (text === markerEnd) {
+      rangeEnd = state.bMarks[line] - 1;
+    }
+  }
+
+  if (typeof rangeBegin === 'number' && typeof rangeEnd === 'number' && rangeBegin < rangeEnd) {
+    const content = state.src.slice(rangeBegin, rangeEnd).trim();
+    const encoded = Base64.encode(content);
+
+    const token = new state.Token('html_block', '', 0);
+    token.map = [startLine, startLine + 1];
+    token.content = `<PluginViewSourceDefault display="${display}">${encoded}</PluginViewSourceDefault>`;
+    token.block = true;
+
+    state.tokens.push(token);
+  }
+
+  state.line = startLine + 1;
+
+  return true;
 };
