@@ -67,10 +67,9 @@ const range = (state, startLine, endLine, silent) => {
 
     if (text === markerBegin) {
       rangeBegin = state.eMarks[line] + 1;
-    }
-
-    if (text === markerEnd) {
+    } else if (text === markerEnd) {
       rangeEnd = state.bMarks[line] - 1;
+      break;
     }
   }
 
