@@ -65,9 +65,9 @@ const range = (state, startLine) => {
 
   const id = matched[1];
   const display = matched[3] || 'default';
+
   const markerBegin = `[[source(${id}):begin]]`;
   const markerEnd = `[[source(${id}):end]]`;
-
   let rangeBegin;
   let rangeEnd;
 
@@ -77,7 +77,10 @@ const range = (state, startLine) => {
 
     if (text === markerBegin) {
       rangeBegin = state.eMarks[line] + 1;
-    } else if (text === markerEnd) {
+      continue;
+    }
+
+    if (text === markerEnd) {
       rangeEnd = state.bMarks[line] - 1;
       break;
     }
