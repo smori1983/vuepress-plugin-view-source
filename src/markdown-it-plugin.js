@@ -2,6 +2,7 @@ const { Base64 } = require('js-base64');
 
 module.exports = (md) => {
   md.block.ruler.before('paragraph', 'vuepress_plugin_view_source', entirePage);
+  md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range_begin_end', rangeBeginEnd);
   md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range', range);
 };
 
@@ -33,6 +34,21 @@ const entirePage = (state, startLine) => {
 // - [[source(<id>):end]]
 const regexpRangeBeginEnd = /^\[\[source\([\da-z_]+\):(begin|end)]]$/;
 
+/**
+ * Do not leave begin and end markers.
+ */
+const rangeBeginEnd = (state, startLine) => {
+  const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
+
+  if (regexpRangeBeginEnd.test(lineText)) {
+    state.line = startLine + 1;
+
+    return true;
+  }
+
+  return false;
+};
+
 // Pattern for range display:
 // - [[source(<id>)]]
 // - [[source(<id>):container]]
@@ -40,12 +56,6 @@ const regexpRangeDisplay = /^\[\[source\(([\da-z_]+)\)(:(container))?]]$/;
 
 const range = (state, startLine) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
-
-  // Do not leave begin and end markers.
-  if (regexpRangeBeginEnd.test(lineText)) {
-    state.line = startLine + 1;
-    return true;
-  }
 
   const matched = regexpRangeDisplay.exec(lineText);
 
