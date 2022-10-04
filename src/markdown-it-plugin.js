@@ -1,9 +1,25 @@
 const { Base64 } = require('js-base64');
 
 module.exports = (md) => {
-  md.block.ruler.before('paragraph', 'vuepress_plugin_view_source', entirePage);
-  md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range_begin_end', rangeBeginEnd);
-  md.block.ruler.before('paragraph', 'vuepress_plugin_view_source_range', range);
+  md.block.ruler.before('paragraph', 'vuepress_plugin_view_source', blockRule);
+};
+
+const blockRule = (state, startLine) => {
+  const rules = [
+    entirePage,
+    rangeBeginEnd,
+    range,
+  ];
+
+  const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
+
+  for (let i = 0; i < rules.length; i++) {
+    if (rules[i](state, startLine, lineText)) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 // Pattern for entire page display:
@@ -11,9 +27,7 @@ module.exports = (md) => {
 // - [[source:container]]
 const regexpEntirePageDisplay = /^\[\[source(:(container))?]]$/;
 
-const entirePage = (state, startLine) => {
-  const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
-
+const entirePage = (state, startLine, lineText) => {
   const matched = regexpEntirePageDisplay.exec(lineText);
 
   if (matched === null) {
@@ -37,9 +51,7 @@ const regexpRangeBeginEnd = /^\[\[source\([\da-z_]+\):(begin|end)]]$/;
 /**
  * Do not leave begin and end markers.
  */
-const rangeBeginEnd = (state, startLine) => {
-  const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
-
+const rangeBeginEnd = (state, startLine, lineText) => {
   if (regexpRangeBeginEnd.test(lineText)) {
     state.line = startLine + 1;
 
@@ -54,9 +66,7 @@ const rangeBeginEnd = (state, startLine) => {
 // - [[source(<id>):container]]
 const regexpRangeDisplay = /^\[\[source\(([\da-z_]+)\)(:(container))?]]$/;
 
-const range = (state, startLine) => {
-  const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
-
+const range = (state, startLine, lineText) => {
   const matched = regexpRangeDisplay.exec(lineText);
 
   if (matched === null) {
