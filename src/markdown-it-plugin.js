@@ -10,7 +10,7 @@ module.exports = (md) => {
 // - [[source:container]]
 const regexpEntirePageDisplay = /^\[\[source(:(container))?]]$/;
 
-const entirePage = (state, startLine, endLine, silent) => {
+const entirePage = (state, startLine) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
   const matched = regexpEntirePageDisplay.exec(lineText);
@@ -38,7 +38,7 @@ const regexpRangeBeginEnd = /^\[\[source\([\da-z_]+\):(begin|end)]]$/;
 // - [[source(<id>):container]]
 const regexpRangeDisplay = /^\[\[source\(([\da-z_]+)\)(:(container))?]]$/;
 
-const range = (state, startLine, endLine, silent) => {
+const range = (state, startLine) => {
   const lineText = state.src.slice(state.bMarks[startLine], state.eMarks[startLine]);
 
   // Do not leave begin and end markers.
