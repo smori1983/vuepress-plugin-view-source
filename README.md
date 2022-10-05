@@ -13,15 +13,17 @@ This plugin is useful when you need to display markdown source in the page.
 
 ## Markdown notations
 
-| type        | notation                     | description                                     |
-|-------------|------------------------------|-------------------------------------------------|
-| entire page | `[[source]]`                 | Display source of entire page.                  |
-|             | `[[source:container]]`       | Display source of entire page as container.     |
-| range       | `[[source(<id>):begin]]`     | Beginning line for source identified by `<id>`. |
-|             | `[[source(<id>):end]]`       | Ending line for source identified by `<id>`.    |
-|             | `[[source(<id>)]]`           | Display source for `<id>`.                      |
-|             | `[[source(<id>):container]]` | Display source for `<id>` as container.         |
+| type        | notation                     | description                                                |
+|-------------|------------------------------|------------------------------------------------------------|
+| entire page | `[[source]]`                 | Display source of entire page.                             |
+|             | `[[source:container]]`       | Display source of entire page as container.                |
+| range       | `[[source(<id>):begin]]`     | Specify beginning line.                                    |
+|             | `[[source(<id>):end]]`       | Specify ending line.                                       |
+|             | `[[source(<id>)]]`           | Display source between begin and end markers.              |
+|             | `[[source(<id>):container]]` | Display source between begin and end markers as container. |
 
 ### `<id>`
+
+It is necessary to define id to identify begin and end markers in the markdown file.
 
 Available characters: lowercase alphabets, digits, underscore.
