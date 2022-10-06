@@ -13,6 +13,8 @@ This plugin is useful when you need to display markdown source in the page.
 
 ## Markdown notations
 
+There are 2 types of notations provided on how to display the source.
+
 | type        | notation                     | description                                                |
 |-------------|------------------------------|------------------------------------------------------------|
 | entire page | `[[source]]`                 | Display source of entire page.                             |
