@@ -37,7 +37,7 @@ export default {
 <style lang="stylus" scoped>
 .vuepress-plugin-view-source {
   .source {
-    background-color #2d2d2d
+    background-color $codeBgColor
     color: white
   }
 }
