@@ -1,6 +1,6 @@
 {
   "name": "vuepress-plugin-view-source",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "VuePress plugin for view source.",
   "main": "src/index.js",
   "scripts": {
