@@ -4,8 +4,8 @@
   "description": "VuePress plugin for view source.",
   "main": "src/index.js",
   "scripts": {
-    "example:dev": "vuepress dev --no-cache example",
-    "example:build": "vuepress build example",
+    "example:dev": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev --no-cache example",
+    "example:build": "NODE_OPTIONS=--openssl-legacy-provider vuepress build example",
     "example:server": "http-server example/.vuepress/dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
